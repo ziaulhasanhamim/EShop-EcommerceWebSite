@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Product>;
+@section head {
+    <link rel="stylesheet" href="~/css/Product-List.css" media="all" />
+}
+
+<div>
+    <div class="container d-flex justify-content-center mt-50 mb-50 product-div">
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <partial name="_ProductSummary" model="product" />
+            }
+        </div>
+    </div>
+</div>
