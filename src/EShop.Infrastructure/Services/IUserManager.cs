@@ -8,20 +8,13 @@ using System.Threading.Tasks;
 
 namespace EShop.Infrastructure.Services
 {
-    public enum UserError
-    {
-        NoError,
-        EmailErorr,
-        NameError,
-        PasswordError,
-        UserNotFoundError
-    }
     public interface IUserManager
     {
-        public Task<(UserError, string?)> SigninUserAsyn(string email);
-        public Task<(UserError, string?)> SignoutUserAsync();
-        public Task<(UserError, string?)> CreateUserAsync(User user, string password);
+        public Task<bool> SigninUserAsync(string email);
+        public Task<bool> SignoutUserAsync();
+        public Task<User> CreateUserAsync(User user, string password);
         public Task<User?> GetUserByIdAsync(int id);
         public Task<User?> GetUserByEmailAsync(string email);
+        public Task<bool> DoesEmailExistsAsync(string email);
     }
 }

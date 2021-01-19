@@ -29,18 +29,16 @@ namespace EShop.MainApplication.Controllers
         [HttpPost("register", Name = "Register")]
         public async Task<ActionResult> Register(RegisterViewModel userViewModel)
         {
-            if (userViewModel.Password != userViewModel.ConfirmPassword)
+            if (await _userManager.DoesEmailExistsAsync(userViewModel.Email))
             {
-                userViewModel.Error = "Password Doesn't Match";
+                ModelState.AddModelError("Email", "Email Already Exists");
+            }
+            if (!ModelState.IsValid)
+            {
                 return View(userViewModel);
             }
             var result = await _userManager.CreateUserAsync(new User { Name = userViewModel.Name, Email = userViewModel.Email, CreatedOn = DateTime.Now }, userViewModel.Password);
-            if(result.Item1 == UserError.NoError)
-            {
-                return RedirectToRoute("Index");
-            }
-            userViewModel.Error = result.Item2;
-            return View(userViewModel);
+            return RedirectToRoute("Index");
         }
     }
 }

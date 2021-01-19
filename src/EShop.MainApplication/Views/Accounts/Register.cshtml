@@ -2,40 +2,39 @@
 @{
     ViewData["nav"] = false;
 }
-<div class="container">
+<div class="container-sm">
     <br />
     <br />
     <br />
     <form method="post">
-        <div class="form-outline mb-4">
-            <input type="email" id="email" asp-for="Email" required class="form-control" />
-            <label class="form-label" for="email">Email address</label>
-        </div>
-        <div class="form-outline mb-4">
-            <input type="text" id="name" required asp-for="Name" class="form-control" />
-            <label class="form-label" for="name">Name</label>
-        </div>
-        <div class="form-outline mb-4">
-            <input type="password" required asp-for="Password" id="pass1" class="form-control" />
-            <label class="form-label" for="pass1">Password</label>
-        </div>
-        <div class="form-outline mb-4">
-            <input type="password" required asp-for="ConfirmPassword" id="pass2" class="form-control" />
-            <label class="form-label" for="pass2">ConfirmPassword</label>
-        </div>
-        @if(Context.Request.Method.ToLower() == "post" && Model.Error != null)
-        {
-            <div>
-                <p class="text-danger">@Model.Error</p>
+        <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <input asp-for="Email" class="form-control" id="email">
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-        }
-        @Html.AntiForgeryToken()
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">Create Account</button>
-
-        <!-- Register buttons -->
-        <div class="text-center">
-            <p>Already Have An Account? <a href="#!">Login</a></p>
         </div>
+        <div class="form-group row">
+            <label for="Name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input asp-for="Name" class="form-control" id="Name">
+            </div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label for="pass1" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input asp-for="Password" class="form-control" id="pass1">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="pass2" class="col-sm-2 col-form-label"> Confirm Password</label>
+            <div class="col-sm-10">
+                <input asp-for="ConfirmPassword" class="form-control" id="pass2">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Account</button>
     </form>
 </div>

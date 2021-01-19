@@ -4,6 +4,7 @@ using EShop.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,17 +25,13 @@ namespace EShop.Infrastructure.ServiceImplementations
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<(UserError, string?)> CreateUserAsync(User user, string password)
+        public async Task<User> CreateUserAsync(User user, string password)
         {
-            var emailExisted = await _context.Set<User>().AnyAsync(u => (user.Email == u.Email));
-            if (emailExisted)
-                return (UserError.EmailErorr, "Email Already Exists");
-            if (password.Length < 8)
-                return (UserError.PasswordError, "Password must be atleast 8 chars");
             user.SetPassword(password);
-            await _context.AddAsync<User>(user);
+            user.Email = user.Email.ToLower();
+            var entry = await _context.AddAsync<User>(user);
             await _context.SaveChangesAsync();
-            return (UserError.NoError, null);
+            return entry.Entity;
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)
@@ -47,32 +44,33 @@ namespace EShop.Infrastructure.ServiceImplementations
             return await _context.FindAsync<User>(id);
         }
 
-        public async Task<(UserError, string?)> SigninUserAsyn(string email)
+        public async Task<bool> SigninUserAsync(string email)
         {
             var httpContext = _httpContextAccessor.HttpContext;
             var user = await _context.Set<User>().Where(u => u.Email == email).FirstOrDefaultAsync();
             if (user == null)
-                return (UserError.UserNotFoundError, "No User Found By The Email");
+                return false;
             var claims = new Claim[]
             {
                 new Claim("id", user.Id.ToString()),
                 new Claim("email", user.Email),
-                new Claim("name", user.Name)
             };
             ClaimsIdentity claimIdentity = new ClaimsIdentity(claims, "user");
             await httpContext!.SignInAsync("UserAuth", new ClaimsPrincipal(claimIdentity));
-            return (UserError.NoError, null);
+            return true;
         }
 
-        public async Task<(UserError, string?)> SignoutUserAsync()
+        public async Task<bool> SignoutUserAsync()
         {
             var httpContext = _httpContextAccessor.HttpContext;
             if (httpContext?.User.Identity?.IsAuthenticated ?? false)
             {
                 await httpContext!.SignOutAsync();
-                return (UserError.NoError, null);
+                return true;
             }
-            return (UserError.UserNotFoundError, "User is not Authenticated");
+            return false;
         }
+        
+        public async Task<bool> DoesEmailExistsAsync(string email) => await _context.Set<User>().AnyAsync(u => (email == u.Email));
     }
 }
