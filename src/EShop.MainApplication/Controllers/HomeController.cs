@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace EShop.MainApplication.Controllers
 {
+    [Route("")]
     public class HomeController : Controller
     {
         IProductsRepository _productRepo;
@@ -22,7 +23,7 @@ namespace EShop.MainApplication.Controllers
             _productRepo = productRepo;
         }
 
-        [Route("", Name = "Index")]
+        [HttpGet("", Name = "Index")]
         public async Task<IActionResult> Index()
         {
             return View(await _productRepo.GetAllRowsAsync());

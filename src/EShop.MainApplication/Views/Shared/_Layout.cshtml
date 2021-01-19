@@ -18,7 +18,10 @@
 </head>
 <body>
     <div>
-        <partial name="_Navbar" />
+        @if ((bool)ViewData["nav"])
+        {
+            <partial name="_Navbar" />
+        }
         @RenderBody()
     </div>
     @try
