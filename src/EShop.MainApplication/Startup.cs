@@ -45,7 +45,7 @@ namespace EShop.MainApplication
                 .AddCookie("UserAuth", (options) =>
                 {
                     options.Cookie.Name = "AuthSession";
-                    options.LoginPath = "/acoount/login";
+                    options.LoginPath = "/account/login";
                     options.LogoutPath = "/account/logout";
                 });
             services.AddTransient<IUserManager, UserManager>();

@@ -1,4 +1,5 @@
 ﻿using EShop.Infrastructure.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,7 +25,9 @@ namespace EShop.MainApplication.ViewModels
         [Required]
         [DataType(DataType.Password)]
         [StringLength(256, MinimumLength = 8, ErrorMessage = "Password must be atleat 8 chars")]
-        [Compare("ConfirmPassword", ErrorMessage = "Password Doesn't Match")]
+        [Compare("Password", ErrorMessage = "Password Doesn't Match")]
         public string ConfirmPassword { get; set; } = null!;
+        [HiddenInput]
+        public string? ReturnUrl { get; set; }
     }
 }

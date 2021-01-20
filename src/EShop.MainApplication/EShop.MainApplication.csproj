@@ -16,7 +16,4 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Include="Views\Shared\_Navbar.cshtml" />
-	</ItemGroup>
 </Project>

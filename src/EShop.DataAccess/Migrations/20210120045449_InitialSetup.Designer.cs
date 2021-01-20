@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EShop.DataAccess.Migrations
 {
     [DbContext(typeof(DefaultDbContext))]
-    [Migration("20210118162847_IntialCreate")]
-    partial class IntialCreate
+    [Migration("20210120045449_InitialSetup")]
+    partial class InitialSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,7 +41,7 @@ namespace EShop.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("EShop.DataAccess.Models.OrderItem", b =>
@@ -66,7 +66,7 @@ namespace EShop.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("EShop.DataAccess.Models.Product", b =>
@@ -101,7 +101,7 @@ namespace EShop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("EShop.DataAccess.Models.ProductImage", b =>
@@ -155,7 +155,7 @@ namespace EShop.DataAccess.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EShop.DataAccess.Models.Order", b =>

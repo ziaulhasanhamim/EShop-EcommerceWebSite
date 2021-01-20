@@ -19,6 +19,6 @@ namespace EShop.DataAccess.Models
         [Required]
         [ForeignKey("UserId")]
         public User User { get; set; } = null!;
-        public List<OrderItem> Items { get; set; } = new();
+        public List<OrderItem> Items { get; set; } = null!;
     }
 }

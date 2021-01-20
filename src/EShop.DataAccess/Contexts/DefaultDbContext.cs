@@ -10,6 +10,11 @@ namespace EShop.DataAccess.Contexts
 {
     public class DefaultDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderItem> OrderItems { get; set; } = null!;
+
         public DefaultDbContext(DbContextOptions options)
             : base(options)
         {

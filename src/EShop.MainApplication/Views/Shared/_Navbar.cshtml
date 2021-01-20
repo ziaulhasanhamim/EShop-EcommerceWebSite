@@ -1,4 +1,8 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-ligh">
+﻿@inject IUserManager userManager
+@{
+    var user = await userManager.GetAuthenticatedUserAsync();
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-ligh">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">EShop</a>
         <button class="navbar-toggler"
@@ -22,12 +26,46 @@
                     <a class="nav-link" href="#">Pricing</a>
                 </li>
             </ul>
-            <span class="navbar-text">
-                <a class="nav-link" href="#">
-                    <span class="badge badge-pill bg-danger">1</span>
-                    <span><i class="fas fa-shopping-cart"></i></span>
-                </a>
-            </span>
+            <ul class="navbar-nav mr-auto me-4 mb-3 mb-lg-1">
+
+                @if (Context.User.Identity?.IsAuthenticated ?? false)
+                {
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="#">
+                            @user?.Name.Split(" ")[0]
+                        </a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" asp-route="Logout">
+                            Logout
+                        </a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="#">
+                            <span class="badge badge-pill bg-danger">1</span>
+                            <span><i class="fas fa-shopping-cart"></i></span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+
+                        <a class="nav-link" asp-route="Login">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link" asp-route="Register">
+                            Register
+                        </a>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 </nav>
